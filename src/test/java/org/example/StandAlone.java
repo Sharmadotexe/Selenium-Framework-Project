@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.List;
@@ -18,11 +20,20 @@ public class StandAlone {
         driver.findElement(By.id("userEmail")).sendKeys("vikas.sh@gmail.com");
         driver.findElement(By.id("userPassword")).sendKeys("Test@123");
         driver.findElement(By.id("login")).click();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".mb-3")));
+
 
         List<WebElement> products = driver.findElements(By.cssSelector(".col-lg-4"));
 
         WebElement prod = products.stream().filter(product -> product.findElement(By.cssSelector("b")).getText().equals("ZARA COAT 3")).findFirst().orElse(null);
 
         prod.findElement(By.cssSelector(".card-body button:last-of-type")).click();
+
+        //applying explicit wait before clicking the cart button after adding products
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));
+        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector(".ng-animating"))));
+
+        driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
     }
 }
