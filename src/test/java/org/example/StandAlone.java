@@ -6,6 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 import java.util.List;
@@ -17,6 +18,8 @@ public class StandAlone {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://rahulshettyacademy.com/client/#/auth/login");
 
+        String productin = "ZARA COAT 3";
+
         driver.findElement(By.id("userEmail")).sendKeys("vikas.sh@gmail.com");
         driver.findElement(By.id("userPassword")).sendKeys("Test@123");
         driver.findElement(By.id("login")).click();
@@ -26,7 +29,7 @@ public class StandAlone {
 
         List<WebElement> products = driver.findElements(By.cssSelector(".col-lg-4"));
 
-        WebElement prod = products.stream().filter(product -> product.findElement(By.cssSelector("b")).getText().equals("ZARA COAT 3")).findFirst().orElse(null);
+        WebElement prod = products.stream().filter(product -> product.findElement(By.cssSelector("b")).getText().equals(productin)).findFirst().orElse(null);
 
         prod.findElement(By.cssSelector(".card-body button:last-of-type")).click();
 
@@ -35,5 +38,14 @@ public class StandAlone {
         wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector(".ng-animating"))));
 
         driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
+
+
+       List<WebElement> names = driver.findElements(By.xpath("//div[@class='cartSection']/h3"));
+
+        Boolean ans = names.stream().anyMatch(name -> name.getText().equalsIgnoreCase(productin));
+
+        Assert.assertTrue(ans);
+
+        driver.findElement(By.cssSelector(".totalRow button")).click();
     }
 }
