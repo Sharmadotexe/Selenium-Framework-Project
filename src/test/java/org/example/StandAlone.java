@@ -1,9 +1,11 @@
 package org.example;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -13,8 +15,9 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class StandAlone {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get("https://rahulshettyacademy.com/client/#/auth/login");
 
@@ -35,7 +38,8 @@ public class StandAlone {
 
         //applying explicit wait before clicking the cart button after adding products
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#toast-container")));
-        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector(".ng-animating"))));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector(".ngx-spinner-overlay")));
+//        wait.until(ExpectedConditions.invisibilityOf(driver.findElement(By.cssSelector(".ng-animating"))));
 
         driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
 
@@ -47,5 +51,22 @@ public class StandAlone {
         Assert.assertTrue(ans);
 
         driver.findElement(By.cssSelector(".totalRow button")).click();
+
+        WebElement elee  = driver.findElement(By.cssSelector("input[placeholder='Select Country']"));
+
+        elee.click();
+        elee.sendKeys("ind");
+        Thread.sleep(1000);
+        elee.sendKeys(Keys.DOWN);
+        elee.sendKeys(Keys.DOWN);
+        elee.sendKeys(Keys.ENTER);
+
+        driver.findElement(By.cssSelector(".btnn.action__submit")).click();
+        String confirmTxt = driver.findElement(By.cssSelector(".hero-primary")).getText();
+
+        Assert.assertTrue(confirmTxt.equalsIgnoreCase("Thankyou for the order."));
+
+        driver.close();
     }
+
 }
