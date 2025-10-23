@@ -1,5 +1,6 @@
 package org.example;
 
+import org.AbstractComponents.AbstractComponents;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -14,7 +15,11 @@ import java.time.Duration;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class StandAlone {
+public class StandAlone extends AbstractComponents {
+    public StandAlone(WebDriver driver) {
+        super(driver);
+    }
+
     public static void main(String[] args) throws InterruptedException {
         WebDriver driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -26,42 +31,24 @@ public class StandAlone {
         //creating object of the landing page class
         LandingPage landingPage = new LandingPage(driver);
         landingPage.goTo();
-        landingPage.loginApplication("vikas.sh@gmail.com","Test@123");
+        ProductCatalogue productCatalogue = landingPage.loginApplication("vikas.sh@gmail.com","Test@123");
 
-        //Creating object of Products catalogue page
-        ProductCatalogue productCatalogue = new ProductCatalogue(driver);
         List<WebElement> products =  productCatalogue.getProductsList();
 
         //calling addProductToCart By Name function
         productCatalogue.addProductToCart(productin);
+        CartPage cartPage = productCatalogue.goToCartPage();
 
 
+        Boolean match = cartPage.VerifyProduct(productin);
+        Assert.assertTrue(match);
 
-        driver.findElement(By.cssSelector("[routerlink*='cart']")).click();
+        CheckoutPage checkoutPage = cartPage.goToCheckout();
+        checkoutPage.actionMethod("India");
+        ConfirmationPage confirmationPage =  checkoutPage.goToConfirmation();
 
-
-       List<WebElement> names = driver.findElements(By.xpath("//div[@class='cartSection']/h3"));
-
-        Boolean ans = names.stream().anyMatch(name -> name.getText().equalsIgnoreCase(productin));
-
-        Assert.assertTrue(ans);
-
-        driver.findElement(By.cssSelector(".totalRow button")).click();
-
-        WebElement elee  = driver.findElement(By.cssSelector("input[placeholder='Select Country']"));
-
-        elee.click();
-        elee.sendKeys("ind");
-        Thread.sleep(1000);
-        elee.sendKeys(Keys.DOWN);
-        elee.sendKeys(Keys.DOWN);
-        elee.sendKeys(Keys.ENTER);
-
-        driver.findElement(By.cssSelector(".btnn.action__submit")).click();
-        String confirmTxt = driver.findElement(By.cssSelector(".hero-primary")).getText();
-
+        String confirmTxt = confirmationPage.verifyConfirmationMessage();
         Assert.assertTrue(confirmTxt.equalsIgnoreCase("Thankyou for the order."));
-
         driver.close();
     }
 

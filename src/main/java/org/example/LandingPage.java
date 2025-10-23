@@ -27,10 +27,12 @@ public class LandingPage {
 
 
 
-    public void loginApplication(String username, String password){
+    public ProductCatalogue loginApplication(String username, String password){
         userEmail.sendKeys(username);
         userPassword.sendKeys(password);
         submit.click();
+        ProductCatalogue productCatalogue = new ProductCatalogue(driver);
+        return productCatalogue;
     }
 
     public void goTo(){
