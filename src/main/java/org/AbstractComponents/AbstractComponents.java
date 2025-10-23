@@ -20,8 +20,9 @@ public class AbstractComponents {
         wait.until(ExpectedConditions.visibilityOfElementLocated(findBy));
     }
 
-    public void waitForElementToDisappear(By findBy){
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(findBy));
+    public void waitForElementToDisappear(By findByele) throws InterruptedException {
+        Thread.sleep(1000);
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(4));
+//        wait.until(ExpectedConditions.invisibilityOfElementLocated(findByele));
     }
 }
