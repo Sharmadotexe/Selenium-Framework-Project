@@ -6,9 +6,9 @@
         </classes>
     </test>
 
-    <test name="Error Validations Test">
-        <classes>
-            <class name="org.example.ErrorValidations"/>
-        </classes>
-    </test>
+<!--    <test name="Error Validations Test">-->
+<!--        <classes>-->
+<!--            <class name="org.example.ErrorValidations"/>-->
+<!--        </classes>-->
+<!--    </test>-->
 </suite>

@@ -19,10 +19,10 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class StandAlone extends BaseTest {
+    String productin = "ZARA COAT 3";
 
     @Test
     public void submitOrder() throws InterruptedException, IOException {
-        String productin = "ZARA COAT 3";
 
 
         ProductCatalogue productCatalogue = landingPage.loginApplication("vikas.sh@gmail.com","Test@123");
@@ -43,5 +43,15 @@ public class StandAlone extends BaseTest {
 
         String confirmTxt = confirmationPage.verifyConfirmationMessage();
         Assert.assertTrue(confirmTxt.equalsIgnoreCase("Thankyou for the order."));
+    }
+
+
+    @Test(dependsOnMethods = {"submitOrder"})
+    public void OrderHistory(){
+        //Zara Coat 3
+
+        ProductCatalogue productCatalogue = landingPage.loginApplication("vikas.sh@gmail.com","Test@123");
+        OrderPage orderPage = productCatalogue.goToOrdersPage();
+        Assert.assertTrue(orderPage.VerifyOrderDisplay(productin));
     }
 }

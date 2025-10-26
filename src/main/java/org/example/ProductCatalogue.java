@@ -47,6 +47,4 @@ public class ProductCatalogue extends AbstractComponents {
         waitForElementToAppear(toastMessage);
         waitForElementToDisappear(overlayMask);
     }
-
-
 }
