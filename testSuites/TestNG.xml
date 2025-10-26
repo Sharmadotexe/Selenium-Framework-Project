@@ -1,14 +1,14 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite">
+<suite parallel="tests" name="Suite">
     <test name="Submit Order Test">
         <classes>
             <class name="org.example.StandAlone"/>
         </classes>
     </test>
 
-<!--    <test name="Error Validations Test">-->
-<!--        <classes>-->
-<!--            <class name="org.example.ErrorValidations"/>-->
-<!--        </classes>-->
-<!--    </test>-->
+    <test name="Error Validations Test">
+        <classes>
+            <class name="org.example.ErrorValidations"/>
+        </classes>
+    </test>
 </suite>
