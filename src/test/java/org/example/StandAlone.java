@@ -25,7 +25,6 @@ public class StandAlone extends BaseTest {
         String productin = "ZARA COAT 3";
 
 
-        LandingPage landingPage = launchLandingPage();
         ProductCatalogue productCatalogue = landingPage.loginApplication("vikas.sh@gmail.com","Test@123");
 
         List<WebElement> products =  productCatalogue.getProductsList();
@@ -45,5 +44,4 @@ public class StandAlone extends BaseTest {
         String confirmTxt = confirmationPage.verifyConfirmationMessage();
         Assert.assertTrue(confirmTxt.equalsIgnoreCase("Thankyou for the order."));
     }
-
 }
