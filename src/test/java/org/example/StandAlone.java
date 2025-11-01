@@ -57,24 +57,25 @@ public class StandAlone extends BaseTest {
         Assert.assertTrue(orderPage.VerifyOrderDisplay("ZARA COAT 3"));
     }
 
+    @DataProvider
+    public Object[][] getData() throws IOException {
+          List<HashMap<String,String>> data  = getJsonDatatoMap(System.getProperty("user.dir")+ "\\src\\test\\java\\org\\data\\Purchase.json");
+        return new Object[][] {{data.get(0)}, {data.get(1)}};
+    }
+}
+
 
 //    @DataProvider
 //    public Object [][] getData(){
 //       return new Object [][] {{"vikas.sh@gmail.com","Test@123","ZARA COAT 3"},{"rockvikas300@gmail.com","Test@123456","ADIDAS ORIGINAL"}};
 //    }
 
-    @DataProvider
-    public Object[][] getData() {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("email", "vikas.sh@gmail.com");
-        map.put("pass", "Test@123");
-        map.put("productin", "ZARA COAT 3");
-
-        HashMap<String, String> map1 = new HashMap<String, String>();
-        map.put("email", "rockvikas300@gmail.com");
-        map.put("pass", "Test@123456");
-        map.put("productin", "ADIDAS ORIGINAL");
-
-        return new Object[][] {{map}, {map1}};
-    }
-}
+//        HashMap<String, String> map = new HashMap<String, String>();
+//        map.put("email", "vikas.sh@gmail.com");
+//        map.put("pass", "Test@123");
+//        map.put("productin", "ZARA COAT 3");
+//
+//        HashMap<String, String> map1 = new HashMap<String, String>();
+//        map.put("email", "rockvikas300@gmail.com");
+//        map.put("pass", "Test@123456");
+//        map.put("productin", "ADIDAS ORIGINAL");
