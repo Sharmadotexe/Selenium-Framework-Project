@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -23,24 +24,24 @@ public class StandAlone extends BaseTest {
 //    String productin = "ZARA COAT 3";
 
     @Test(dataProvider = "getData", groups = {"purchaseOrder"})
-    public void submitOrder(String email, String pass, String productin) throws InterruptedException, IOException {
+    public void submitOrder(HashMap<String,String> input) throws InterruptedException, IOException {
 
 
-        ProductCatalogue productCatalogue = landingPage.loginApplication(email,pass);
+        ProductCatalogue productCatalogue = landingPage.loginApplication(input.get("email"),input.get("pass"));
 
-        List<WebElement> products =  productCatalogue.getProductsList();
+        List<WebElement> products = productCatalogue.getProductsList();
 
         //calling addProductToCart By Name function
-        productCatalogue.addProductToCart(productin);
+        productCatalogue.addProductToCart(input.get("productin"));
         CartPage cartPage = productCatalogue.goToCartPage();
 
 
-        Boolean match = cartPage.VerifyProduct(productin);
+        Boolean match = cartPage.VerifyProduct(input.get("productin"));
         Assert.assertTrue(match);
 
         CheckoutPage checkoutPage = cartPage.goToCheckout();
         checkoutPage.actionMethod("India");
-        ConfirmationPage confirmationPage =  checkoutPage.goToConfirmation();
+        ConfirmationPage confirmationPage = checkoutPage.goToConfirmation();
 
         String confirmTxt = confirmationPage.verifyConfirmationMessage();
         Assert.assertTrue(confirmTxt.equalsIgnoreCase("Thankyou for the order."));
@@ -48,17 +49,32 @@ public class StandAlone extends BaseTest {
 
 
     @Test(dependsOnMethods = {"submitOrder"})
-    public void OrderHistory(){
+    public void OrderHistory() {
         //Zara Coat 3
 
-        ProductCatalogue productCatalogue = landingPage.loginApplication("vikas.sh@gmail.com","Test@123");
+        ProductCatalogue productCatalogue = landingPage.loginApplication("vikas.sh@gmail.com", "Test@123");
         OrderPage orderPage = productCatalogue.goToOrdersPage();
         Assert.assertTrue(orderPage.VerifyOrderDisplay("ZARA COAT 3"));
     }
 
 
+//    @DataProvider
+//    public Object [][] getData(){
+//       return new Object [][] {{"vikas.sh@gmail.com","Test@123","ZARA COAT 3"},{"rockvikas300@gmail.com","Test@123456","ADIDAS ORIGINAL"}};
+//    }
+
     @DataProvider
-    public Object [][] getData(){
-       return new Object [][] {{"vikas.sh@gmail.com","Test@123","ZARA COAT 3"},{"rockvikas300@gmail.com","Test@123456","ADIDAS ORIGINAL"}};
+    public Object[][] getData() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("email", "vikas.sh@gmail.com");
+        map.put("pass", "Test@123");
+        map.put("productin", "ZARA COAT 3");
+
+        HashMap<String, String> map1 = new HashMap<String, String>();
+        map.put("email", "rockvikas300@gmail.com");
+        map.put("pass", "Test@123456");
+        map.put("productin", "ADIDAS ORIGINAL");
+
+        return new Object[][] {{map}, {map1}};
     }
 }
