@@ -11,6 +11,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
@@ -19,13 +20,13 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class StandAlone extends BaseTest {
-    String productin = "ZARA COAT 3";
+//    String productin = "ZARA COAT 3";
 
-    @Test
-    public void submitOrder() throws InterruptedException, IOException {
+    @Test(dataProvider = "getData", groups = {"purchaseOrder"})
+    public void submitOrder(String email, String pass, String productin) throws InterruptedException, IOException {
 
 
-        ProductCatalogue productCatalogue = landingPage.loginApplication("vikas.sh@gmail.com","Test@123");
+        ProductCatalogue productCatalogue = landingPage.loginApplication(email,pass);
 
         List<WebElement> products =  productCatalogue.getProductsList();
 
@@ -52,6 +53,12 @@ public class StandAlone extends BaseTest {
 
         ProductCatalogue productCatalogue = landingPage.loginApplication("vikas.sh@gmail.com","Test@123");
         OrderPage orderPage = productCatalogue.goToOrdersPage();
-        Assert.assertTrue(orderPage.VerifyOrderDisplay(productin));
+        Assert.assertTrue(orderPage.VerifyOrderDisplay("ZARA COAT 3"));
+    }
+
+
+    @DataProvider
+    public Object [][] getData(){
+       return new Object [][] {{"vikas.sh@gmail.com","Test@123","ZARA COAT 3"},{"rockvikas300@gmail.com","Test@123456","ADIDAS ORIGINAL"}};
     }
 }
