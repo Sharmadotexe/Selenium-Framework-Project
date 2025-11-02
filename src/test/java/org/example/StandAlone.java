@@ -2,10 +2,8 @@ package org.example;
 
 import org.AbstractComponents.AbstractComponents;
 import org.TestComponents.BaseTest;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -14,6 +12,7 @@ import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
@@ -56,6 +55,16 @@ public class StandAlone extends BaseTest {
         OrderPage orderPage = productCatalogue.goToOrdersPage();
         Assert.assertTrue(orderPage.VerifyOrderDisplay("ZARA COAT 3"));
     }
+
+    public String getScreenshot(String testCaseName) throws IOException {
+        TakesScreenshot ts = (TakesScreenshot)driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        File destFile = new File(System.getProperty("user.dir") + "\\reports" + testCaseName +".png");
+        FileUtils.copyFile(source, destFile);
+        return System.getProperty("user.dir") + "\\reports\\" + testCaseName + ".png";
+    }
+
+    //Extent Reports --
 
     @DataProvider
     public Object[][] getData() throws IOException {
