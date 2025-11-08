@@ -2,6 +2,8 @@ package org.TestComponents;
 
 import org.apache.commons.io.FileUtils;
 import org.example.LandingPage;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -58,6 +60,15 @@ public class BaseTest {
         List<HashMap<String, String>> data = mapper.readValue(jsonContent, new TypeReference<List<HashMap<String, String>>>() {
         });
         return data;
+    }
+
+
+    public String getScreenshot(String testCaseName, WebDriver driver) throws IOException {
+        TakesScreenshot ts = (TakesScreenshot)driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        File destFile = new File(System.getProperty("user.dir") + "\\reports\\" + testCaseName +".png");
+        FileUtils.copyFile(source, destFile);
+        return System.getProperty("user.dir") + "\\reports\\" + testCaseName + ".png";
     }
 
 

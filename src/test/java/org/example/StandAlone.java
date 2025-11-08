@@ -56,15 +56,6 @@ public class StandAlone extends BaseTest {
         Assert.assertTrue(orderPage.VerifyOrderDisplay("ZARA COAT 3"));
     }
 
-    public String getScreenshot(String testCaseName) throws IOException {
-        TakesScreenshot ts = (TakesScreenshot)driver;
-        File source = ts.getScreenshotAs(OutputType.FILE);
-        File destFile = new File(System.getProperty("user.dir") + "\\reports" + testCaseName +".png");
-        FileUtils.copyFile(source, destFile);
-        return System.getProperty("user.dir") + "\\reports\\" + testCaseName + ".png";
-    }
-
-    //Extent Reports --
 
     @DataProvider
     public Object[][] getData() throws IOException {

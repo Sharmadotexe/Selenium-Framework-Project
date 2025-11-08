@@ -1,5 +1,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite parallel="tests" name="Suite">
+
+    <listeners>
+        <listener class-name="org.TestComponents.Listners"/>
+    </listeners>
+
     <test name="Submit Order Test">
         <classes>
             <class name="org.example.StandAlone"/>
