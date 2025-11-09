@@ -1,6 +1,7 @@
 package org.example;
 
 import org.TestComponents.BaseTest;
+import org.TestComponents.Retry;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class ErrorValidations extends BaseTest {
 
-    @Test(groups = {"ErrorHandling"})
+    @Test(groups = {"ErrorHandling"}, retryAnalyzer = Retry.class)
     public void LoginErrorValidation() throws InterruptedException, IOException {
         String productin = "ZARA COAT 3";
         landingPage.loginApplication("vikas.sh@gmail.com","Test@1234");
