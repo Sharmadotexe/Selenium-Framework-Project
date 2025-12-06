@@ -19,16 +19,16 @@ public class LandingPage extends AbstractComponents {
 
     //pagefactory Design pattern
     @FindBy(id="userEmail")
-    WebElement userEmail;
+   private WebElement userEmail;
 
     @FindBy(id="userPassword")
-    WebElement userPassword;
+   private WebElement userPassword;
 
     @FindBy(id="login")
-    WebElement submit;
+   private WebElement submit;
 
     @FindBy(css = "[class*= 'flyInOut']")
-    WebElement errorMessage;
+   private WebElement errorMessage;
 
 
 
