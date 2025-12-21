@@ -52,4 +52,10 @@ public class StepDefinitions extends BaseTest {
         String confirmTxt = confirmationPage.verifyConfirmationMessage();
         Assert.assertTrue(confirmTxt.equalsIgnoreCase(string));
     }
+
+    @Then("{string} message is displayed")
+    public void message_displayed(String string){
+        Assert.assertEquals(string ,landingPage.getErrorMessage());
+        driver.close();
+    }
 }
